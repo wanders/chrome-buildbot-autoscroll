@@ -1,12 +1,15 @@
-* chrome-buildbot-autoscroll
+#+TITLE: chrome-buildbot-autoscroll
+#+STYLE:<style>html { font-family: sans-serif; font-size: 12pt; }</style>
+#+OPTIONS: toc:nil num:nil
 
+section-numberssection-numbers
 Chrome extension to automatically scroll buildbot logs.
 
-Download it from Chrome webstore:
-https://chrome.google.com/webstore/detail/buildbot-log-auto-scroll/achbanhpkobijjnjbcpcpkfoeiommkga
+ * Download it from Chrome webstore: https://chrome.google.com/webstore/detail/buildbot-log-auto-scroll/achbanhpkobijjnjbcpcpkfoeiommkga
+ * Source code: http://wanders.github.io/chrome-buildbot-autoscroll/
 
 Pages with url's matching
-http://*/builders/*/builds/*/steps/*/logs/stdio will automatically
+`/builders/*/builds/*/steps/*/logs/stdio` will automatically
 scroll to the end of the page and continues to do so as more output
 appears. Manually scrolling to somewhere in the document will disable
 automatic scrolling until document is manually scrolled to end.
