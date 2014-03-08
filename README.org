@@ -6,7 +6,7 @@ section-numberssection-numbers
 Chrome extension to automatically scroll buildbot logs.
 
  * Download it from Chrome webstore: https://chrome.google.com/webstore/detail/buildbot-log-auto-scroll/achbanhpkobijjnjbcpcpkfoeiommkga
- * Source code: http://wanders.github.io/chrome-buildbot-autoscroll/
+ * Source code: https://github.com/wanders/chrome-buildbot-autoscroll/
 
 Pages with url's matching
 `/builders/*/builds/*/steps/*/logs/stdio` will automatically
