@@ -2,11 +2,11 @@
     "manifest_version": 2,
 
     "name": "Buildbot log auto scroll",
-    "shortname": "bbot-ascroll",
+    "short_name": "bbot-ascroll",
     "description": "Scroll automagically to end of buildbot logs",
 
-    "version": "1.2",
-    "homepage_url": "https://github.com/wanders/chrome-buildbot-autoscroll",
+    "version": "1.3.2",
+    "homepage_url": "http://wanders.github.io/chrome-buildbot-autoscroll/",
 
     "icons": { "16": "nut16.png",
                "48": "nut48.png",
