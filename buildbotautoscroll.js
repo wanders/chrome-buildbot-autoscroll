@@ -30,21 +30,118 @@
 (function () {
     "use strict";
 
-    var shouldScroll = true;
+    var shouldAutoScroll = false;
+    var helpElement;
+
+    function key(k) {
+        return '<div style="display: inline-block; box-shadow: inset 0 0 0.5em 0 rgba(0, 0, 0, 1); border-radius 0.2em;padding: 0.5em;border-radius: 0.3em;background: white;">' + k + '</div>';
+    }
+
+    function doScroll() {
+        window.scrollTo(window.scrollX, document.body.scrollHeight);
+    }
 
     function maybeScroll() {
-        if (document.body && shouldScroll) {
-            window.scrollTo(window.scrollX, document.body.scrollHeight);
+        if (document.body && shouldAutoScroll) {
+            setTimeout(doScroll, 0);
         }
     }
 
+    function scrollToNextError(backwards) {
+        var e = document.getElementsByClassName("header")[0];
+
+        if (!e) {
+            return;
+        }
+
+        if (backwards) {
+            e = e.parentNode.lastChild;
+        }
+
+        while (e) {
+            if (e.className == "stderr" &&
+                ((!backwards && (e.offsetTop > window.scrollY + window.innerHeight))
+                 ||
+                 (backwards && (e.offsetTop + e.offsetHeight < window.scrollY)))) {
+
+                e.style.transition = "";
+                e.style.background = "#ff8";
+                setTimeout(function () {
+                    e.style.transition = "background-color .25s linear";
+                    e.style.background = "white";
+                }, 0);
+                setTimeout(function () {
+                    e.style.transition = "";
+                    e.style.background = "";
+                }, 300);
+                e.scrollIntoViewIfNeeded();
+                return;
+            }
+            if (backwards) {
+                e = e.previousSibling;
+            } else {
+                e = e.nextSibling;
+            }
+        }
+
+
+        document.body.style.transition = "";
+        document.body.style.background = "#f88";
+        setTimeout(function () {
+            document.body.style.transition = "background-color .25s linear";
+            document.body.style.background = "white";
+        }, 0);
+    }
+
     new MutationObserver(function (m) {
+        if (!helpElement && document.body && document.body.firstChild) {
+
+            helpElement = document.createElement("div");
+
+            helpElement.style.border = "1px solid black";
+            helpElement.innerHTML = ('<ul style="list-style: none; padding: 0">' +
+                                     '<li>' + key('n') + ' Next error</li>' +
+                                     '<li>' + key('N') + ' Prev error</li>' +
+                                     '<li>' + key('g') + ' End of document</li>' +
+                                     '<li>' + key('G') + ' Top of document</li>' +
+                                     '<li>' + key('F') + ' Follow</li>' +
+                                     '</ul>');
+            helpElement.setAttribute("style", "font-size: 8pt; border: 1px solid black;position: fixed;right: 1em;top: 1em;background: #ffc;padding: 1em;opacity: 0.8;border-radius: 0.5em;");
+            document.body.insertBefore(helpElement, document.body.firstChild);
+
+            setTimeout(function () {
+                helpElement.style.transition = "opacity .5s ease-in-out";
+                helpElement.style.opacity = "0";
+            }, 7000);
+            setTimeout(function () {
+                helpElement.style.display = "none";
+            }, 7500);
+
+        }
         maybeScroll();
     }).observe(document, {childList: true, subtree: true});
 
     document.addEventListener("scroll", function (evt) {
-        shouldScroll = (window.scrollY + window.innerHeight >= document.body.scrollHeight);
+        if (window.scrollY + window.innerHeight < document.body.scrollHeight) {
+            shouldAutoScroll = false;
+        }
     });
 
-    maybeScroll();
+    window.addEventListener("load", function (evt) {
+        maybeScroll();
+    });
+
+    var keyHandlers = {};
+    keyHandlers["n".charCodeAt(0)] = function () { scrollToNextError(false); };
+    keyHandlers["N".charCodeAt(0)] = function () { scrollToNextError(true); };
+    keyHandlers["g".charCodeAt(0)] = function () { doScroll(); };
+    keyHandlers["G".charCodeAt(0)] = function () { window.scrollTo(window.scrollX, 0); };
+    keyHandlers["F".charCodeAt(0)] = function () { shouldAutoScroll = true; doScroll(); };
+
+    window.addEventListener("keypress", function (evt) {
+        if (keyHandlers[evt.keyCode]) {
+            keyHandlers[evt.keyCode]();
+        }
+    });
+
 }());
