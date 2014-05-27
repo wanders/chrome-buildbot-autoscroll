@@ -2,17 +2,21 @@
 #+STYLE:<style>html { font-family: sans-serif; font-size: 12pt; }</style>
 #+OPTIONS: toc:nil num:nil
 
-section-numberssection-numbers
 Chrome extension to automatically scroll buildbot logs.
 
  * Download it from Chrome webstore: https://chrome.google.com/webstore/detail/buildbot-log-auto-scroll/achbanhpkobijjnjbcpcpkfoeiommkga
  * Source code: https://github.com/wanders/chrome-buildbot-autoscroll/
 
-Pages with url's matching
-`/builders/*/builds/*/steps/*/logs/stdio` will automatically
-scroll to the end of the page and continues to do so as more output
-appears. Manually scrolling to somewhere in the document will disable
-automatic scrolling until document is manually scrolled to end.
+Pages with url's matching `*/builders/*/builds/*/steps/*/logs/stdio`
+will get some extra key bindings (which are somewhat inspired by
+less/vi). The keys are:
+
+ * 'n' scroll forward to next error (=output on stderr).
+ * 'N' scroll backward to previous error.
+ * 'F' scroll to end of document and follow as more data appears.
+ * 'g' scroll to beginning of document.
+ * 'G' scroll to end of document.
+
 
 * License
 
