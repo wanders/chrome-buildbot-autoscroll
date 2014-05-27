@@ -32,6 +32,7 @@
 
     var shouldAutoScroll = false;
     var helpElement;
+    var lastScroll = -1;
 
     function key(k) {
         return '<div style="display: inline-block; box-shadow: inset 0 0 0.5em 0 rgba(0, 0, 0, 1); border-radius 0.2em;padding: 0.5em;border-radius: 0.3em;background: white;">' + k + '</div>';
@@ -39,6 +40,7 @@
 
     function doScroll() {
         window.scrollTo(window.scrollX, document.body.scrollHeight);
+        lastScroll = window.scrollY;
     }
 
     function maybeScroll() {
@@ -122,7 +124,7 @@
     }).observe(document, {childList: true, subtree: true});
 
     document.addEventListener("scroll", function (evt) {
-        if (window.scrollY + window.innerHeight < document.body.scrollHeight) {
+        if (lastScroll != window.scrollY) {
             shouldAutoScroll = false;
         }
     });
