@@ -14,7 +14,7 @@
 
     "content_scripts": [
 	{
-	    "matches": ["http://*/builders/*/builds/*/steps/*/logs/stdio"],
+	    "matches": ["*://*/*builders/*/builds/*/steps/*/logs/stdio"],
 	    "run_at": "document_start",
 	    "js": ["buildbotautoscroll.js"]
 	}
